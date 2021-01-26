@@ -23,6 +23,7 @@
 #include <triqs/gfs.hpp>
 #include <triqs/mesh.hpp>
 #include <triqs/det_manip.hpp>
+#include <triqs/det_manip/det_manip_basic.hpp>
 
 namespace triqs_cthyb {
   using namespace triqs::gfs;
@@ -61,7 +62,7 @@ namespace triqs_cthyb {
       friend void swap(delta_block_adaptor &dba1, delta_block_adaptor &dba2) noexcept { swap(dba1.delta_block, dba2.delta_block); }
     };
 
-    std::vector<det_manip::det_manip<delta_block_adaptor>> dets; // The determinants
+    std::vector<det_manip::det_manip_basic<delta_block_adaptor>> dets; // The determinants
     int current_sign, old_sign;                                  // Permutation prefactor
     h_scalar_t atomic_weight;                                    // The current value of the trace or norm
     h_scalar_t atomic_reweighting;                               // The current value of the reweighting
@@ -94,10 +95,10 @@ namespace triqs_cthyb {
         }
         dets.emplace_back(delta_block_adaptor(real(delta[bl])), p.det_init_size);
 #endif
-        dets.back().set_singular_threshold(p.det_singular_threshold);
-        dets.back().set_n_operations_before_check(p.det_n_operations_before_check);
-        dets.back().set_precision_warning(p.det_precision_warning);
-        dets.back().set_precision_error(p.det_precision_error);
+        // dets.back().set_singular_threshold(p.det_singular_threshold);
+        // dets.back().set_n_operations_before_check(p.det_n_operations_before_check);
+        // dets.back().set_precision_warning(p.det_precision_warning);
+        // dets.back().set_precision_error(p.det_precision_error);
       }
     }
 
@@ -141,7 +142,7 @@ namespace triqs_cthyb {
 
   //--------- DEBUG ---------
 
-  using det_type = det_manip::det_manip<qmc_data::delta_block_adaptor>;
+  using det_type = det_manip::det_manip_basic<qmc_data::delta_block_adaptor>;
 
   // Print taus of operator sequence in dets
   inline void print_det_sequence(qmc_data const &data) {
